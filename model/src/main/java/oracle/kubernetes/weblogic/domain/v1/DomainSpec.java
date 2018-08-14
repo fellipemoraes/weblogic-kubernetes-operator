@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /** DomainSpec is a description of a domain. */
-public class DomainSpec {
+public class DomainSpec implements ServerSpec {
 
   /** Domain unique identifier. Must be unique across the Kubernetes cluster. (Required) */
   @SerializedName("domainUID")
@@ -214,11 +214,7 @@ public class DomainSpec {
   @Valid
   private Map<String, Cluster> clusters = new HashMap<String, Cluster>();
 
-  /**
-   * Domain unique identifier. Must be unique across the Kubernetes cluster. (Required)
-   *
-   * @return domain UID
-   */
+  @Override
   public String getDomainUID() {
     return domainUID;
   }
@@ -243,11 +239,7 @@ public class DomainSpec {
     return this;
   }
 
-  /**
-   * Domain name (Required)
-   *
-   * @return domain name
-   */
+  @Override
   public String getDomainName() {
     return domainName;
   }
@@ -281,6 +273,7 @@ public class DomainSpec {
    *
    * @return image
    */
+  @Override
   @Deprecated
   public String getImage() {
     return image;
@@ -316,17 +309,7 @@ public class DomainSpec {
     return this;
   }
 
-  /**
-   * The image pull policy for the WebLogic Docker image. Legal values are Always, Never and
-   * IfNotPresent.
-   *
-   * <p>Defaults to Always if image ends in :latest, IfNotPresent otherwise.
-   *
-   * <p>More info: https://kubernetes.io/docs/concepts/containers/images#updating-images
-   *
-   * @deprecated Use the Server imagePullPolicy property.
-   * @return image pull policy
-   */
+  @Override
   @Deprecated
   public String getImagePullPolicy() {
     return imagePullPolicy;
@@ -366,12 +349,7 @@ public class DomainSpec {
     return this;
   }
 
-  /**
-   * Reference to secret containing domain administrator username and password. Secret must contain
-   * keys names 'username' and 'password' (Required)
-   *
-   * @return admin secret
-   */
+  @Override
   public V1SecretReference getAdminSecret() {
     return adminSecret;
   }
@@ -398,12 +376,7 @@ public class DomainSpec {
     return this;
   }
 
-  /**
-   * Admin server name. Note: Possibly temporary as we could find this value through domain home
-   * inspection. (Required)
-   *
-   * @return admin server name
-   */
+  @Override
   public String getAsName() {
     return asName;
   }
@@ -430,12 +403,7 @@ public class DomainSpec {
     return this;
   }
 
-  /**
-   * Administration server port. Note: Possibly temporary as we could find this value through domain
-   * home inspection. (Required)
-   *
-   * @return admin server port
-   */
+  @Override
   public Integer getAsPort() {
     return asPort;
   }
@@ -462,14 +430,7 @@ public class DomainSpec {
     return this;
   }
 
-  /**
-   * List of specific T3 channels to export. Named T3 Channels will be exposed using NodePort
-   * Services. The internal and external ports must match; therefore, it is required that the
-   * channel's port in the WebLogic configuration be a legal and unique value in the Kubernetes
-   * cluster's legal NodePort port range.
-   *
-   * @return exported channels
-   */
+  @Override
   public List<String> getExportT3Channels() {
     return exportT3Channels;
   }
@@ -500,28 +461,7 @@ public class DomainSpec {
     return this;
   }
 
-  /**
-   * Controls which managed servers will be started. Legal values are NONE, ADMIN, ALL, SPECIFIED
-   * and AUTO.
-   *
-   * <ul>
-   *   <li>NONE indicates that no servers, including the administration server, will be started.
-   *   <li>ADMIN indicates that only the administration server will be started.
-   *   <li>ALL indicates that all servers in the domain will be started.
-   *   <li>SPECIFIED indicates that the administration server will be started and then additionally
-   *       only those servers listed under serverStartup or managed servers belonging to cluster
-   *       listed under clusterStartup up to the cluster's replicas field will be started.
-   *   <li>AUTO indicates that servers will be started exactly as with SPECIFIED, but then managed
-   *       servers belonging to clusters not listed under clusterStartup will be started up to the
-   *       replicas field.
-   * </ul>
-   *
-   * <p>Defaults to AUTO.
-   *
-   * @deprecated Use the servers, clusters, clusterDefaults, nonClusteredServerDefaults and
-   *     serverDefaults properties.
-   * @return startup control
-   */
+  @Override
   @Deprecated
   public String getStartupControl() {
     return startupControl;
