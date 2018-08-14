@@ -16,7 +16,7 @@
 #
 
 box:
-  id: store/oracle/serverjre
+  id: store/oracle/serverjre:8
   username: $DOCKER_USERNAME
   password: $DOCKER_PASSWORD
   tag: 8
