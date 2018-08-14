@@ -21,7 +21,7 @@ public interface ServerSpec {
   /**
    * The WebLogic Docker image.
    *
-   * <p> Defaults to store/oracle/weblogic:12.2.1.3.
+   * <p>Defaults to store/oracle/weblogic:12.2.1.3.
    *
    * @return image
    */
